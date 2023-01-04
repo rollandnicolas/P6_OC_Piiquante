@@ -19,6 +19,7 @@ exports.signup = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
+    //console.log(req.body.email);
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
@@ -35,7 +36,8 @@ exports.login = (req, res, next) => {
                             { userId: user._id },
                             'RANDOM_TOKEN_SECRET',
                             { expiresIn: '24h' }
-                        )
+                        ),
+                        message: 'Utilisateur connecté !'
                     });
                 })
                 .catch(error => res.status(500).json({ error }));

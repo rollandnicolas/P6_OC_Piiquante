@@ -1,5 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const userRoutes = require('./routes/user');
+const saucesRoutes = require('./routes/sauces');
+const bodyParser = require("body-parser");
+
 
 mongoose
   .connect(
@@ -23,7 +27,7 @@ app.use((req, res, next) => {
     next();
   });
 
-  mongoose
+/*  mongoose
   .connect(
     `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-shard-00-00.d4buf.mongodb.net:27017,cluster0-shard-00-01.d4buf.mongodb.net:27017,cluster0-shard-00-02.d4buf.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=atlas-8i7j0t-shard-0&authSource=admin&retryWrites=true&w=majority`
     //{ useNewUrlParser: true, useUnifiedTopology: true }
@@ -32,6 +36,7 @@ app.use((req, res, next) => {
   .catch((error) => {
     console.log(error);
   });
+  
   
 app.use((req, res, next) => {
   console.log('Requête reçue !');
@@ -50,6 +55,17 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   console.log('Réponse envoyée avec succès !');
-});
+});*/
+
+// Parsing req
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+
+app.use('/api/auth', userRoutes);
+app.use('/api/sauces', saucesRoutes);
 
 module.exports = app;
