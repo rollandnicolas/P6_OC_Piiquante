@@ -27,17 +27,8 @@ app.use((req, res, next) => {
     next();
   });
 
-/*  mongoose
-  .connect(
-    `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-shard-00-00.d4buf.mongodb.net:27017,cluster0-shard-00-01.d4buf.mongodb.net:27017,cluster0-shard-00-02.d4buf.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=atlas-8i7j0t-shard-0&authSource=admin&retryWrites=true&w=majority`
-    //{ useNewUrlParser: true, useUnifiedTopology: true }
-  )
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch((error) => {
-    console.log(error);
-  });
-  
-  
+
+/* 
 app.use((req, res, next) => {
   console.log('Requête reçue !');
   next();
