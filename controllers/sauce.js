@@ -9,21 +9,21 @@ exports.getAllSauces = (req, res, next) => {
 };
 
 exports.createSauce = (req, res, next) => {
-    console.log(req.userId);
+    const objetSauce = JSON.parse(req.body.sauce);
     const sauce = new Sauce({
-        userId: req.userId,
-        name: req.body.name,
-        manufacturer: req.body.manufacturer,
-        description: req.body.description,
-        mainPepper: req.body.mainPepper,
-        imageUrl: req.body.imageUrl,
-        heat: req.body.heat,
-        likes: 0,
-        dislikes: 0,
-        usersLiked: [],
-        usersDisliked: [],
+        ...objetSauce,
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`,
     });
-    sauce.save()
-        .then(() => res.status(201).json({ message: 'Sauce créée !' }))
-        .catch(error => res.status(400).json({ error }));
-}
+    sauce
+      .save()
+      .then(() => res.status(201).json({ message: "Sauce créée !" }))
+  .catch((error) => res.status(400).json({ error }));
+  };
+
+  exports.getSauceById = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => res.status(200).json(sauce))
+        .catch(error => res.status(404).json({ error: error }))
+};

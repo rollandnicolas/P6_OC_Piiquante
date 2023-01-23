@@ -36,7 +36,7 @@ exports.login = (req, res, next) => {
                             'RANDOM_TOKEN_SECRET',
                             { expiresIn: '24h' }
                         ),
-                        message: 'Utilisateur connecté !'
+                       // message: 'Utilisateur connecté !'
                     });
                 })
                 .catch(error => res.status(500).json({ error }));
