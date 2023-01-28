@@ -2,10 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const bodyParser = require("body-parser");
-
+const path = require('path');
 
 
 // routes
+
+
 const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauces');
 
@@ -24,6 +26,7 @@ mongoose
     console.log(error);
   });
 
+  app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // CORS headers
 app.use((req, res, next) => {
