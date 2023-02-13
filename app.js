@@ -5,29 +5,38 @@ const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const path = require('path');
 
-
-// routes
-
-
-const userRoutes = require('./routes/user');
-const saucesRoutes = require('./routes/sauces');
-
-
 // express
 const app = express();
 
+//Security
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
+// routes
+const userRoutes = require('./routes/user');
+const saucesRoutes = require('./routes/sauces');
 
 // MongoDb
 mongoose
-  .connect(
-    `mongodb://newUser:4AUW0tXQXp0K4BDG@ac-wbxplib-shard-00-00.hxikddt.mongodb.net:27017,ac-wbxplib-shard-00-01.hxikddt.mongodb.net:27017,ac-wbxplib-shard-00-02.hxikddt.mongodb.net:27017/?ssl=true&replicaSet=atlas-d08daj-shard-0&authSource=admin&retryWrites=true&w=majority`
-  )
+  .connect(process.env.DB_MONGOPWD)
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch((error) => {
     console.log(error);
   });
 
   app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// helmet
+  app.use(helmet());
+
+// express-rate-limit
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
 
 // CORS headers
 app.use((req, res, next) => {
@@ -37,7 +46,6 @@ app.use((req, res, next) => {
     next();
   });
 
-
 // parse request
 app.use(bodyParser.json());
 app.use(
@@ -46,11 +54,9 @@ app.use(
   })
 );
 
-
 // settings routes
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', saucesRoutes);
-
 
 
 module.exports = app;
