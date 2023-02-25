@@ -32,7 +32,6 @@ exports.getSauceById = (req, res, next) => {
 
 
 //modifier une sauce
-
 exports.updateSauceById = (req, res, next) => {
   const sauceObject = req.file ?
     {
@@ -46,7 +45,6 @@ exports.updateSauceById = (req, res, next) => {
 
 
 //like and dislike
-
 exports.likeSauceById = (req, res, next) => {
   // Si l'utilisateur aime la sauce
   if (req.body.like === 1) {
@@ -62,10 +60,8 @@ exports.likeSauceById = (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
   }
   else {
-    // Si like === 0 l'utilisateur supprime son vote
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
-        // Si le tableau "userLiked" contient l'ID de l'utilisateur
         if (sauce.usersLiked.includes(req.body.userId)) {
           // On enlève un like du tableau "userLiked" 
           Sauce.updateOne({ _id: req.params.id }, { $pull: { usersLiked: req.body.userId }, $inc: { likes: -1 } })

@@ -29,14 +29,7 @@ mongoose
 // helmet
   app.use(helmet());
 
-// express-rate-limit
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use(limiter);
+
 
 // CORS headers
 app.use((req, res, next) => {

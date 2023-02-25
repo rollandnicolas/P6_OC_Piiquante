@@ -8,11 +8,11 @@ const multer = require('../middlewares/multer-config');
 
 const saucesCtrl = require('../controllers/sauce');
 
-router.get('/', auth, multer, saucesCtrl.getAllSauces);
+router.get('/', auth, saucesCtrl.getAllSauces);
 router.post('/', auth, multer, saucesCtrl.createSauce);
 router.get('/:id', auth, saucesCtrl.getSauceById);
 router.put('/:id', auth, multer, saucesCtrl.updateSauceById);
-router.delete('/:id', auth, multer, saucesCtrl.deleteSauceById);
-router.post('/:id/like', auth, multer, saucesCtrl.likeSauceById);
+router.delete('/:id', auth, saucesCtrl.deleteSauceById);
+router.post('/:id/like', auth, saucesCtrl.likeSauceById);
 
 module.exports = router;
