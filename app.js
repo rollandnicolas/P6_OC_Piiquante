@@ -10,7 +10,6 @@ const app = express();
 
 //Security
 const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
 
 // routes
 const userRoutes = require('./routes/user');
@@ -28,8 +27,6 @@ mongoose
 
 // helmet
   app.use(helmet());
-
-
 
 // CORS headers
 app.use((req, res, next) => {
@@ -50,6 +47,5 @@ app.use(
 // settings routes
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', saucesRoutes);
-
 
 module.exports = app;

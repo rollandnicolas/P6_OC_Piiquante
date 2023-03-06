@@ -1,28 +1,9 @@
 require("dotenv").config();
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
-//const passwordValidator = require("password-validator")
 const User = require('../models/User');
 
-/*// Schema for passwordValidator
-var schema = new passwordValidator();
-schema
-  .is()
-  .min(6)
-  .is()
-  .max(20)
-  .has()
-  .not()
-  .spaces()
-  .has()
-  .uppercase()
-  .has()
-  .lowercase()
-  .has()
-  .digits(1);
-  */
-
-
+//création d'un nouveau user
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -37,6 +18,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+//login d'un user existant
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email }) 
       .then((user) => {

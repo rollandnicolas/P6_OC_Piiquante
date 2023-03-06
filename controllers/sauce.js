@@ -53,8 +53,8 @@ exports.likeSauceById = (req, res, next) => {
       .then((sauce) => res.status(200).json({ message: 'Like ajouté !' }))
       .catch(error => res.status(400).json({ error }));
   }
+  // Si l'utilisateur n'aime pas la sauce
   else if (req.body.like === -1) {
-    // Si l'utilisateur n'aime pas la sauce
     Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: (req.body.like++) * -1 }, $push: { usersDisliked: req.body.userId } })
       .then((sauce) => res.status(200).json({ message: 'Dislike ajouté !' }))
       .catch(error => res.status(400).json({ error }));
