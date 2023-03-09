@@ -16,6 +16,8 @@ const userRoutes = require('./routes/user');
 const saucesRoutes = require('./routes/sauces');
 
 // MongoDb
+mongoose.set('strictQuery', true);
+
 mongoose
   .connect(process.env.DB_MONGOPWD)
   .then(() => console.log("Connexion à MongoDB réussie !"))
