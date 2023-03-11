@@ -59,23 +59,29 @@ exports.likeSauceById = (req, res, next) => {
       .then(() => res.status(200).json({ message: 'Dislike ajouté !' }))
       .catch(error => res.status(400).json({ error }));
   }
-else {
+  else if (req.body.like === 0) {
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
         if (sauce.usersLiked.includes(req.body.userId)) {
-          // On enlève un like du tableau "userLiked" 
+          // On enlève un like et on retire le userId du tableau "userLiked" 
           Sauce.updateOne({ _id: req.params.id }, { $pull: { usersLiked: req.body.userId }, $inc: { likes: -1 } })
             .then(() => { res.status(200).json({ message: 'Like supprimé !' }) })
             .catch(error => res.status(400).json({ error }))
         }
         else if (sauce.usersDisliked.includes(req.body.userId)) {
-          // On enlève un dislike du tableau "userDisliked" 
+          // On enlève un dislike et on retire le userId du tableau "userDisliked" 
           Sauce.updateOne({ _id: req.params.id }, { $pull: { usersDisliked: req.body.userId }, $inc: { dislikes: -1 } })
             .then(() => { res.status(200).json({ message: 'Dislike supprimé !' }) })
             .catch(error => res.status(400).json({ error }))
         }
       })
       .catch(error => res.status(400).json({ error }));
+  } else {
+    res
+      .status(400)
+      .json({
+        message: "la requête n'est pas celle attendue par le backend !",
+      });
   }
 };
 

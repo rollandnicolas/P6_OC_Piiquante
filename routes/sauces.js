@@ -5,8 +5,6 @@ const auth = require('../middlewares/auth')
 const multer = require('../middlewares/multer-config');
 
 const saucesCtrl = require('../controllers/sauce');
-const restrictLikes = require('../middlewares/restrictLikes');
-
 
 const { response } = require('express');
 
@@ -15,6 +13,6 @@ router.post('/', auth, multer, saucesCtrl.createSauce);
 router.get('/:id', auth, saucesCtrl.getSauceById);
 router.put('/:id', auth, multer, saucesCtrl.updateSauceById);
 router.delete('/:id', auth, saucesCtrl.deleteSauceById);
-router.post('/:id/like', auth, restrictLikes, saucesCtrl.likeSauceById);
+router.post('/:id/like', auth, saucesCtrl.likeSauceById);
 
 module.exports = router;
